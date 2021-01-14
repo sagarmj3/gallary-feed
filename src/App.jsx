@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import VideoList from './VideoList';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default class App extends React.Component {
 
@@ -13,7 +14,6 @@ export default class App extends React.Component {
         }
         // Call the service
         this.handleServiceCall();
-
     }
 
     handleServiceCall = async () => {
@@ -22,12 +22,24 @@ export default class App extends React.Component {
         this.setState({items: response.data.nodes});
     }
 
+    loadMore = () => {          
+        this.setState(prevState => ({
+            page: prevState.page + 1,
+        }), this.handleServiceCall)
+    }
 
     render(){
         return (
             <div>
-                <VideoList 
-                    propVideoList={this.state.items} />
+                <InfiniteScroll
+                    dataLength={this.state.items.length}
+                    next={this.loadMore}
+                    hasMore={true}
+                    loader={<h4>Loading...</h4>}>
+
+                    <VideoList propVideoList={this.state.items}/>
+                    
+                </InfiniteScroll>
             </div>
         );
     }
