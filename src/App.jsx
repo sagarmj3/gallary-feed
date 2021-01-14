@@ -18,7 +18,7 @@ export default class App extends React.Component {
 
     handleServiceCall = async () => {
         let n = this.state.page;
-        const response = await axios.get('http://www.pinkvilla.com/photo-gallery-feed-page/' + n);  
+        const response = await axios.get('http://www.pinkvilla.com/photo-gallery-feed-page/page/' + n);  
         this.setState({items: response.data.nodes});
     }
 
